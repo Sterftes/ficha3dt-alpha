@@ -1,1 +1,1 @@
-self.addEventListener('install',e=>{e.waitUntil(caches.open('ficha3dt-v7').then(c=>c.addAll(['./','./index.html','./style.css','./app.js','./manifest.json','./icon.svg'])))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))})
+self.addEventListener('install',e=>{e.waitUntil(caches.open('ficha3dt-v8').then(c=>c.addAll(['./','./index.html','./style.css','./app.js','./manifest.json','./icon.svg'])))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))})

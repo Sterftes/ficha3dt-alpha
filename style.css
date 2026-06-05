@@ -759,3 +759,11 @@ body.light-theme .card{
   text-transform:uppercase;
   opacity:.9;
 }
+
+/* V8: correção da frase do cabeçalho e ficha zerada */
+.title-wrap p{
+  text-transform:none !important;
+}
+body[data-app-version="v8-corrigida"] .title-wrap p{
+  color:#f4d77b!important;
+}

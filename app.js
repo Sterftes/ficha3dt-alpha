@@ -61,6 +61,34 @@ function saveLibrary(){
  localStorage.setItem("ficha3dt-v5-library", JSON.stringify(library));
 }
 
+
+function migrateOldEmptyDefaultCharacter(){
+ const c = library.characters && library.activeId ? library.characters[library.activeId] : null;
+ if(!c) return;
+ const hasIdentity = ["nome","jogador","campanha","mestre","conceito","classe"].some(k => (c[k]||"").trim());
+ const hasChoices = c.state && (
+   (c.state.vantagens||[]).length ||
+   (c.state.desvantagens||[]).length ||
+   (c.state.racas||[]).length ||
+   (c.state.magias||[]).length ||
+   c.state.portrait
+ );
+ const onlyOldR =
+   !hasIdentity && !hasChoices &&
+   String(c.forca||"0")==="0" &&
+   String(c.habilidade||"0")==="0" &&
+   String(c.resistencia||"0")==="1" &&
+   String(c.armadura||"0")==="0" &&
+   String(c.pdf||"0")==="0";
+ if(onlyOldR){
+   c.resistencia="0";
+   c.pvAtual="";
+   c.pmAtual="";
+   library.characters[library.activeId]=c;
+   saveLibrary();
+ }
+}
+
 function loadLibrary(){
  const raw = localStorage.getItem("ficha3dt-v5-library");
  if(raw){
@@ -86,6 +114,7 @@ function loadLibrary(){
    }
    saveLibrary();
  }
+ migrateOldEmptyDefaultCharacter();
  applyCharacter(library.characters[library.activeId]);
  renderCharacterList();
 }
