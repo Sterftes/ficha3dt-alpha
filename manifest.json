@@ -1,0 +1,15 @@
+{
+  "name": "Ficha 3D&T Alpha",
+  "short_name": "3D&T Alpha",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07110d",
+  "theme_color": "#0b2d21",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+<linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+<stop stop-color="#0b2d21"/><stop offset="1" stop-color="#07110d"/>
+</linearGradient>
+<filter id="s"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-opacity=".55"/></filter>
+</defs>
+<rect width="512" height="512" rx="86" fill="url(#g)"/>
+<path d="M256 44 L415 111 L390 354 Q382 413 256 464 Q130 413 122 354 L97 111 Z" fill="#123d2c" stroke="#d8b65a" stroke-width="16" filter="url(#s)"/>
+<path d="M154 152 L256 96 L358 152 L336 344 L256 392 L176 344 Z" fill="none" stroke="#876627" stroke-width="8" opacity=".75"/>
+<path d="M174 196 L338 196 M256 196 L256 342 M205 342 L307 342" stroke="#f4e6b6" stroke-width="34" stroke-linecap="round"/>
+<text x="256" y="153" text-anchor="middle" font-family="Georgia" font-size="67" font-weight="bold" fill="#e4c66d">3D&T</text>
+</svg>
