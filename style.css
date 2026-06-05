@@ -795,3 +795,20 @@ body[data-app-version="v8-corrigida"] .title-wrap p{
 .enemy-current{outline:3px solid rgba(214,180,92,.45)}
 .encounter-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;background:rgba(255,249,226,.75);border:1px solid var(--line);border-radius:12px;padding:8px;font-family:Arial,sans-serif}
 .encounter-row input{width:70px}
+
+/* V9.2 Bestiário garantido */
+@media(min-width:840px){.page-tabs{grid-template-columns:repeat(7,1fr)}}
+.bestiary-layout{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:980px){.bestiary-layout{grid-template-columns:.85fr 1.15fr}}
+.monster-list{display:grid;gap:8px;max-height:520px;overflow:auto;padding-right:4px}
+.monster-card{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:rgba(255,249,226,.74);border:2px solid rgba(119,92,39,.82);border-radius:14px;padding:10px;font-family:Arial,sans-serif;cursor:pointer}
+.monster-card b{display:block;color:#0f3327}.monster-card small{color:#6f5730}
+.monster-detail{background:rgba(255,249,226,.70);border:3px double var(--line);border-radius:18px;padding:12px;min-height:350px}
+.monster-title{display:flex;justify-content:space-between;gap:8px;border-bottom:2px solid rgba(119,92,39,.65);padding-bottom:8px;margin-bottom:10px}
+.monster-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(min-width:760px){.monster-stats{grid-template-columns:repeat(7,1fr)}}
+.monster-stat{text-align:center;border:1px solid var(--line);border-radius:12px;background:rgba(255,249,226,.72);padding:8px 4px;font-family:Arial,sans-serif}
+.monster-stat span{display:block;color:#6f5730;font-size:.76rem}.monster-stat b{font-size:1.2rem;color:#0f3327}
+.master-section{margin-top:10px;padding:10px;border:1px solid rgba(119,92,39,.55);border-radius:12px;background:rgba(255,249,226,.5)}
+.master-section h4{margin:0 0 6px;color:#7f2118;text-transform:uppercase}
+.drop-list{display:flex;flex-wrap:wrap;gap:6px}.drop-chip{background:#34210e;color:#fff1bd;border:1px solid var(--gold);border-radius:999px;padding:5px 8px;font-family:Arial,sans-serif;font-size:.8rem}
