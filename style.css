@@ -543,3 +543,144 @@ summary{cursor:pointer;font-weight:bold;color:#0f3327}
   .scorebar{grid-template-columns:repeat(2,1fr)!important}
   .portrait-wrap{max-width:220px}
 }
+
+
+/* ===== V6: Abas, ficha impressa, dano avançado e visual reforçado ===== */
+.page-tabs{
+  position:sticky;
+  top:92px;
+  z-index:12;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  background:linear-gradient(90deg,rgba(5,11,8,.92),rgba(15,51,39,.92),rgba(5,11,8,.92));
+  border:2px solid var(--gold2);
+  border-radius:16px;
+  padding:8px;
+  box-shadow:0 8px 20px rgba(0,0,0,.36);
+}
+@media(min-width:840px){.page-tabs{grid-template-columns:repeat(6,1fr)}}
+.page-tab{
+  border:1px solid rgba(214,180,92,.55);
+  background:linear-gradient(180deg,#123d2d,#07110d);
+  color:#f5dfa0;
+  border-radius:12px;
+  padding:10px 8px;
+  font-family:Georgia,"Times New Roman",serif;
+  text-align:center;
+  cursor:pointer;
+  font-weight:bold;
+}
+.page-tab.active{
+  background:linear-gradient(180deg,#d6b45c,#8c692b);
+  color:#161006;
+}
+.page-section{display:none}
+.page-section.active{display:block}
+.print-sheet{display:none}
+.icon-badge{
+  display:inline-grid;
+  place-items:center;
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  background:#0f3327;
+  color:#f6df9d;
+  border:1px solid var(--gold);
+  margin-right:6px;
+}
+.icon-name{display:flex;align-items:center;gap:6px}
+.adv-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+}
+@media(min-width:900px){.adv-grid{grid-template-columns:1fr 1fr}}
+.inventory-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+@media(min-width:900px){.inventory-grid{grid-template-columns:1fr 1fr 1fr}}
+.inv-card{
+  background:rgba(255,249,226,.70);
+  border:2px solid var(--line);
+  border-radius:14px;
+  padding:10px;
+}
+.level-box{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+@media(min-width:760px){.level-box{grid-template-columns:repeat(5,1fr)}}
+.dice-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+@media(min-width:900px){.dice-row{grid-template-columns:repeat(6,1fr)}}
+.damage-log{
+  background:#081b13;
+  color:#fff1bd;
+  border:2px solid var(--gold2);
+  border-radius:14px;
+  padding:10px;
+  min-height:74px;
+  font-family:Arial,sans-serif;
+}
+.print-frame{
+  border:4px double #5c421b;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(80,45,12,.14),transparent 12%),
+    radial-gradient(circle at 90% 80%,rgba(127,33,24,.12),transparent 13%),
+    linear-gradient(180deg,#f4e8c4,#e4cd9c);
+  padding:16px;
+  color:#1d1205;
+}
+.print-head{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:12px;
+  border-bottom:3px double #6b4f1f;
+  padding-bottom:8px;
+  margin-bottom:10px;
+}
+.print-head h1{margin:0;font-size:1.5rem;color:#123d2d}
+.print-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.print-box{
+  border:1px solid #6b4f1f;
+  border-radius:8px;
+  padding:8px;
+  background:rgba(255,249,226,.55);
+}
+.print-box h3{margin:0 0 6px;color:#123d2d;font-size:1rem;border-bottom:1px solid #6b4f1f}
+.print-portrait{
+  width:130px;
+  height:170px;
+  border:3px double #6b4f1f;
+  border-radius:8px;
+  object-fit:cover;
+}
+.v6-watermark{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%) rotate(-20deg);
+  font-size:9rem;
+  opacity:.035;
+  pointer-events:none;
+  color:#0f3327;
+}
+@media print{
+  body *{visibility:hidden!important}
+  .print-sheet,.print-sheet *{visibility:visible!important}
+  .print-sheet{
+    display:block!important;
+    position:absolute;
+    inset:0;
+    padding:0;
+  }
+  .print-frame{min-height:100vh}
+  @page{size:A4;margin:10mm}
+}
