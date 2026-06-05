@@ -55,6 +55,7 @@
   <button class="page-tab" onclick="showPage('page-magia', this)">Magias</button>
   <button class="page-tab" onclick="showPage('page-combate', this)">Combate</button>
   <button class="page-tab" onclick="showPage('page-inventario', this)">Inventário</button>
+  <button class="page-tab" onclick="showPage('page-bestiario', this)">Bestiário</button>
   <button class="page-tab" onclick="showPage('page-impressao', this)">PDF</button>
 </nav>
 
@@ -261,6 +262,106 @@
 </section>
 </section>
 
+
+<section id="page-bestiario" class="page-section">
+<section class="card">
+<h2>Bestiário do Mestre</h2>
+<div class="rune-strip">🐉 ᚠ ᛗ ᚷ ᛏ ᚲ 👹</div>
+<div class="grid three searchLine">
+  <input id="monsterSearch" placeholder="Buscar monstro, habilidade, tesouro...">
+  <select id="monsterGroupFilter">
+    <option value="">Todos os grupos</option>
+    <option value="Construtos">Construtos</option>
+    <option value="Feras">Feras</option>
+    <option value="Humanoides">Humanoides</option>
+    <option value="Mortos-Vivos">Mortos-Vivos</option>
+    <option value="Youkai">Youkai</option>
+    <option value="Outros">Outros</option>
+  </select>
+  <select id="monsterScaleFilter">
+    <option value="">Todas as escalas</option>
+    <option value="N">Ningen</option>
+    <option value="S">Sugoi</option>
+    <option value="Ki">Kiodai</option>
+    <option value="K">Kami</option>
+  </select>
+</div>
+<div class="bestiary-layout" style="margin-top:10px">
+  <div>
+    <div class="status-line" id="bestiaryCount">Bestiário carregado.</div>
+    <div id="monsterList" class="monster-list"></div>
+  </div>
+  <div id="monsterDetail" class="monster-detail">
+    <div class="sheet-empty">Selecione um monstro para ver ficha, táticas e drops.</div>
+  </div>
+</div>
+</section>
+
+<section class="card">
+<h2>Criador de Inimigos</h2>
+<div class="grid three">
+  <div>
+    <label>Inimigos personalizados</label>
+    <div id="enemyList" class="character-list"></div>
+  </div>
+  <div>
+    <label>Editor do inimigo</label>
+    <div class="grid two">
+      <input id="enemyNome" placeholder="Nome">
+      <select id="enemyGrupo"><option>Construtos</option><option>Feras</option><option>Humanoides</option><option>Mortos-Vivos</option><option>Youkai</option><option>NPC</option></select>
+      <input id="enemyPontos" type="number" placeholder="Pontos">
+      <select id="enemyEscala"><option value="N">Ningen</option><option value="S">Sugoi</option><option value="Ki">Kiodai</option><option value="K">Kami</option></select>
+      <input id="enemyF" type="number" placeholder="F">
+      <input id="enemyH" type="number" placeholder="H">
+      <input id="enemyR" type="number" placeholder="R">
+      <input id="enemyA" type="number" placeholder="A">
+      <input id="enemyPdF" type="number" placeholder="PdF">
+      <input id="enemyPV" type="number" placeholder="PV">
+      <input id="enemyPM" type="number" placeholder="PM">
+      <input id="enemyImagem" placeholder="URL/imagem opcional">
+    </div>
+  </div>
+  <div>
+    <label>Skills, táticas e drops</label>
+    <textarea id="enemySkills" placeholder="Habilidades, vantagens, magias..."></textarea>
+    <textarea id="enemyTaticas" placeholder="Táticas de combate..."></textarea>
+    <textarea id="enemyDrops" placeholder="Drops/tesouros, um por linha..."></textarea>
+    <div class="actions no-print" style="margin-top:8px">
+      <button onclick="saveEnemyFromEditor()">Salvar inimigo</button>
+      <button class="red" onclick="deleteSelectedEnemy()">Excluir</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="card">
+<h2>Encontros e Combate do Mestre</h2>
+<div class="grid three">
+  <div>
+    <label>Adicionar monstro/inimigo ao encontro</label>
+    <select id="encounterSource"></select>
+    <div class="grid two" style="margin-top:8px">
+      <input id="encounterQty" type="number" value="1" min="1">
+      <button onclick="addToEncounter()">Adicionar</button>
+    </div>
+  </div>
+  <div>
+    <label>Encontro atual</label>
+    <div id="encounterList" class="monster-list small-list"></div>
+  </div>
+  <div>
+    <label>Resumo</label>
+    <div id="encounterSummary" class="damage-log">Nenhum encontro montado.</div>
+    <div class="actions no-print" style="margin-top:8px">
+      <button onclick="rollEncounterInitiative()">Rolar iniciativa</button>
+      <button class="alt" onclick="exportEncounterJSON()">Exportar encontro</button>
+      <button class="red" onclick="clearEncounter()">Limpar</button>
+    </div>
+  </div>
+</div>
+</section>
+</section>
+
 <section id="page-impressao" class="page-section">
 <section class="card">
 <h2>Exportação e Ficha Impressa</h2>
@@ -309,6 +410,7 @@
 <details style="margin-top:10px"><summary>Observação</summary>Esta versão adiciona biblioteca de personagens, múltiplas fichas, exportação/importação geral, visual de pergaminho e suporte para hospedagem como PWA no GitHub Pages.</details>
 </section>
 </main>
+<script src="bestiary.js"></script>
 <script src="app.js"></script>
 
 <section class="print-sheet" id="printSheet">
