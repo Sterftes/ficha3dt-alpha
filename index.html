@@ -437,5 +437,69 @@
   </div>
 </section>
 
+
+<script>
+(function(){
+function $(id){return document.getElementById(id)}
+function esc(v){return (v||"").toString().replace(/[&<>"']/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]})}
+function db(){return window.BESTIARY_DB||[]}
+function scale(s){return s==="N"?"Ningen":s==="S"?"Sugoi":s==="Ki"?"Kiodai":s==="K"?"Kami":s}
+
+window.renderBestiaryFix=function(){
+ var list=$("monsterList"); if(!list)return;
+ var q=($("monsterSearch")?.value||"").toLowerCase();
+ var g=$("monsterGroupFilter")?.value||"";
+ var sc=$("monsterScaleFilter")?.value||"";
+ var all=db();
+ var arr=all.filter(function(m){
+   var blob=(m.nome+" "+m.grupo+" "+m.escala+" "+m.fichaTexto+" "+m.habilidades+" "+m.taticas+" "+(m.tesouros||[]).map(function(t){return t.nome}).join(" ")).toLowerCase();
+   return (!q||blob.includes(q))&&(!g||m.grupo===g)&&(!sc||m.escala===sc);
+ });
+ if($("bestiaryCount")) $("bestiaryCount").textContent=arr.length+" criatura(s) encontradas de "+all.length+" carregadas.";
+ list.innerHTML=arr.map(function(m){
+   var i=all.indexOf(m);
+   return '<div class="monster-card" onclick="selectMonsterFix('+i+')"><div><b>🐉 '+esc(m.nome)+'</b><small>'+esc(m.grupo)+' • '+m.pontos+m.escala+' • pág. '+(m.pagina||"?")+'</small></div><span class="pill">'+scale(m.escala)+'</span></div>';
+ }).join("") || '<div class="sheet-empty">Nenhum monstro encontrado.</div>';
+ renderEncounterSourceFix();
+}
+
+window.selectMonsterFix=function(i){
+ var m=db()[i]; if(!m)return;
+ var drops=(m.tesouros||[]).length?(m.tesouros||[]).map(function(t){return '<span class="drop-chip">'+esc(t.nome)+(t.PE!==""&&t.PE!==undefined?' ('+t.PE+' PEs)':'')+'</span>'}).join(""):'<span class="sheet-empty">Nenhum drop extraído.</span>';
+ var el=$("monsterDetail"); if(!el)return;
+ el.innerHTML='<div class="monster-title"><div><h3>'+esc(m.nome)+'</h3><div class="small">'+esc(m.grupo)+' • '+m.pontos+m.escala+' • '+scale(m.escala)+' • página '+(m.pagina||"?")+'</div></div><div class="actions no-print" style="min-width:220px"><button onclick="duplicateMonsterFix('+i+')">Duplicar como inimigo</button><button class="alt" onclick="rollDropFix('+i+')">Sortear drop</button></div></div>'+
+ '<div class="monster-stats"><div class="monster-stat"><span>F</span><b>'+m.F+'</b></div><div class="monster-stat"><span>H</span><b>'+m.H+'</b></div><div class="monster-stat"><span>R</span><b>'+m.R+'</b></div><div class="monster-stat"><span>A</span><b>'+m.A+'</b></div><div class="monster-stat"><span>PdF</span><b>'+m.PdF+'</b></div><div class="monster-stat"><span>PV</span><b>'+m.PV+'</b></div><div class="monster-stat"><span>PM</span><b>'+m.PM+'</b></div></div>'+
+ '<div class="master-section"><h4>Ficha</h4><div class="small">'+esc(m.fichaTexto||"").replace(/\n/g,"<br>")+'</div></div>'+
+ '<div class="master-section"><h4>Habilidades / Skills</h4><div class="small">'+esc(m.habilidades||"Nenhuma habilidade extraída automaticamente.").replace(/\n/g,"<br>")+'</div></div>'+
+ '<div class="master-section"><h4>Táticas</h4><div class="small">'+esc(m.taticas||"Nenhuma tática extraída automaticamente.").replace(/\n/g,"<br>")+'</div></div>'+
+ '<div class="master-section"><h4>Tesouros / Drops</h4><div class="drop-list">'+drops+'</div><div id="dropResult" class="formula" style="display:none"></div></div>';
+}
+
+function enemies(){try{return JSON.parse(localStorage.getItem("v91_enemies")||"{}")}catch(e){return {}}}
+function saveEnemies(v){localStorage.setItem("v91_enemies",JSON.stringify(v))}
+function encounter(){try{return JSON.parse(localStorage.getItem("v91_encounter")||"[]")}catch(e){return []}}
+function saveEncounter(v){localStorage.setItem("v91_encounter",JSON.stringify(v))}
+
+window.rollDropFix=function(i){var m=db()[i];if(!m||!m.tesouros||!m.tesouros.length){alert("Esse monstro não tem drops extraídos.");return}var it=m.tesouros[Math.floor(Math.random()*m.tesouros.length)];var el=$("dropResult");if(el){el.style.display="block";el.innerHTML="Drop sorteado: <b>"+esc(it.nome)+"</b>"+(it.PE!==""&&it.PE!==undefined?" ("+it.PE+" PEs)":"")}}
+window.duplicateMonsterFix=function(i){var m=db()[i];if(!m)return;var name=prompt("Nome do inimigo personalizado:",m.nome);if(!name)return;var all=enemies();var id="e"+Date.now();all[id]={id:id,nome:name,grupo:m.grupo,pontos:m.pontos,escala:m.escala,F:m.F,H:m.H,R:m.R,A:m.A,PdF:m.PdF,PV:m.PV,PM:m.PM,skills:m.habilidades||m.fichaTexto||"",taticas:m.taticas||"",drops:(m.tesouros||[]).map(function(t){return t.nome+(t.PE!==""&&t.PE!==undefined?" ("+t.PE+" PEs)":"")}).join("\\n")};saveEnemies(all);renderEnemyListFix();renderEncounterSourceFix();alert("Inimigo criado.")}
+window.renderEnemyListFix=function(){var el=$("enemyList");if(!el)return;var arr=Object.values(enemies());el.innerHTML=arr.map(function(e){return '<div class="character-card" onclick="fillEnemyFix(\\''+e.id+'\\')"><div><b>👹 '+esc(e.nome)+'</b><small>'+esc(e.grupo)+' • '+e.pontos+e.escala+' • PV '+e.PV+'</small></div><span class="pill">Editar</span></div>'}).join("")||'<div class="sheet-empty">Nenhum inimigo personalizado salvo.</div>'}
+window.fillEnemyFix=function(id){var e=enemies()[id];if(!e)return;window.selEnemyFix=id;[['enemyNome',e.nome],['enemyGrupo',e.grupo],['enemyPontos',e.pontos],['enemyEscala',e.escala],['enemyF',e.F],['enemyH',e.H],['enemyR',e.R],['enemyA',e.A],['enemyPdF',e.PdF],['enemyPV',e.PV],['enemyPM',e.PM],['enemySkills',e.skills],['enemyTaticas',e.taticas],['enemyDrops',e.drops]].forEach(function(a){var x=$(a[0]);if(x)x.value=a[1]||''})}
+window.saveEnemyFromEditor=function(){var all=enemies();var id=window.selEnemyFix||("e"+Date.now());all[id]={id:id,nome:$("enemyNome")?.value||"Inimigo sem nome",grupo:$("enemyGrupo")?.value||"NPC",pontos:Number($("enemyPontos")?.value||0),escala:$("enemyEscala")?.value||"N",F:Number($("enemyF")?.value||0),H:Number($("enemyH")?.value||0),R:Number($("enemyR")?.value||0),A:Number($("enemyA")?.value||0),PdF:Number($("enemyPdF")?.value||0),PV:Number($("enemyPV")?.value||0),PM:Number($("enemyPM")?.value||0),skills:$("enemySkills")?.value||"",taticas:$("enemyTaticas")?.value||"",drops:$("enemyDrops")?.value||""};window.selEnemyFix=id;saveEnemies(all);renderEnemyListFix();renderEncounterSourceFix();alert("Inimigo salvo.")}
+window.deleteSelectedEnemy=function(){if(!window.selEnemyFix)return;if(!confirm("Excluir inimigo?"))return;var all=enemies();delete all[window.selEnemyFix];saveEnemies(all);window.selEnemyFix=null;renderEnemyListFix();renderEncounterSourceFix()}
+
+window.renderEncounterSourceFix=function(){var sel=$("encounterSource");if(!sel)return;var opts=db().map(function(m,i){return '<option value="m:'+i+'">'+esc(m.nome)+' ('+m.pontos+m.escala+')</option>'}).join("");var opts2=Object.values(enemies()).map(function(e){return '<option value="e:'+e.id+'">👹 '+esc(e.nome)+' ('+e.pontos+e.escala+')</option>'}).join("");sel.innerHTML='<optgroup label="Bestiário">'+opts+'</optgroup><optgroup label="Inimigos personalizados">'+opts2+'</optgroup>';renderEncounterFix()}
+window.addToEncounter=function(){var val=$("encounterSource")?.value;if(!val)return;var qty=Math.max(1,Number($("encounterQty")?.value||1));var arr=encounter(),item;if(val.startsWith("m:")){var i=Number(val.split(":")[1]),m=db()[i];item={type:"m",ref:i,nome:m.nome,pontos:m.pontos,escala:m.escala,PV:m.PV,PM:m.PM,qty:qty,initiative:""}}else{var id=val.split(":")[1],e=enemies()[id];item={type:"e",ref:id,nome:e.nome,pontos:e.pontos,escala:e.escala,PV:e.PV,PM:e.PM,qty:qty,initiative:""}}arr.push(item);saveEncounter(arr);renderEncounterFix()}
+window.renderEncounterFix=function(){var el=$("encounterList");if(!el)return;var arr=encounter();el.innerHTML=arr.map(function(it,i){return '<div class="encounter-row"><div><b>'+it.qty+'x '+esc(it.nome)+'</b><br><small>'+it.pontos+it.escala+' • PV '+it.PV+' cada • Iniciativa: '+(it.initiative||'-')+'</small></div><input type="number" value="'+it.qty+'" min="1" onchange="updateEncounterQtyFix('+i+',this.value)"><button class="red" onclick="removeEncounterItemFix('+i+')">X</button></div>'}).join("")||'<div class="sheet-empty">Nenhum inimigo no encontro.</div>';var tp=arr.reduce((s,it)=>s+Number(it.pontos||0)*Number(it.qty||1),0),tv=arr.reduce((s,it)=>s+Number(it.PV||0)*Number(it.qty||1),0),tm=arr.reduce((s,it)=>s+Number(it.PM||0)*Number(it.qty||1),0);var sum=$("encounterSummary");if(sum)sum.innerHTML=arr.length?'<b>'+arr.length+'</b> grupo(s)<br>Pontos: <b>'+tp+'</b><br>PV total: <b>'+tv+'</b> • PM total: <b>'+tm+'</b>':'Nenhum encontro montado.'}
+window.updateEncounterQtyFix=function(i,v){var arr=encounter();if(!arr[i])return;arr[i].qty=Math.max(1,Number(v||1));saveEncounter(arr);renderEncounterFix()}
+window.removeEncounterItemFix=function(i){var arr=encounter();arr.splice(i,1);saveEncounter(arr);renderEncounterFix()}
+window.clearEncounter=function(){saveEncounter([]);renderEncounterFix()}
+window.rollEncounterInitiative=function(){var arr=encounter().map(function(it){it.initiative=Math.floor(Math.random()*6)+1;return it});arr.sort((a,b)=>Number(b.initiative||0)-Number(a.initiative||0));saveEncounter(arr);renderEncounterFix()}
+window.exportEncounterJSON=function(){var blob=new Blob([JSON.stringify(encounter(),null,2)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="encontro-3dt-alpha.json";a.click()}
+
+function init(){["monsterSearch","monsterGroupFilter","monsterScaleFilter"].forEach(function(id){var el=$(id);if(el){el.addEventListener("input",renderBestiaryFix);el.addEventListener("change",renderBestiaryFix)}});renderBestiaryFix();renderEnemyListFix();renderEncounterSourceFix()}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",init)}else{init()}
+})();
+</script>
+
 </body>
 </html>
