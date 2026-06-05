@@ -684,3 +684,78 @@ summary{cursor:pointer;font-weight:bold;color:#0f3327}
   .print-frame{min-height:100vh}
   @page{size:A4;margin:10mm}
 }
+
+
+/* ===== V7 Premium ===== */
+body.light-theme{
+  background:
+    radial-gradient(circle at 15% 10%, rgba(214,180,92,.28), transparent 22%),
+    linear-gradient(135deg,#e7d4a5,#f8edca 45%,#d0b37a);
+}
+body.light-theme header{
+  background:linear-gradient(180deg,#1b5a40,#0d2f23);
+}
+body.light-theme .card{
+  filter:saturate(1.04) brightness(1.03);
+}
+.title-wrap p{
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-size:1.05rem!important;
+  color:#f1cf74!important;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  text-shadow:0 2px 0 #241204,0 0 12px rgba(214,180,92,.28);
+}
+.dice-display{
+  display:grid;
+  place-items:center;
+  min-height:88px;
+  margin-top:8px;
+  border:2px solid var(--gold2);
+  border-radius:16px;
+  background:linear-gradient(180deg,#0f3327,#07110d);
+  color:#f6df9d;
+  font-size:4rem;
+  box-shadow:inset 0 0 24px rgba(214,180,92,.18);
+}
+.dice-display.rolling{
+  animation:dicePulse .45s infinite alternate;
+}
+@keyframes dicePulse{
+  from{transform:scale(.96);filter:brightness(.9)}
+  to{transform:scale(1.03);filter:brightness(1.2)}
+}
+.global-result{
+  background:#0f3327;
+  color:#fff1bd;
+  border:1px solid var(--gold);
+  border-radius:12px;
+  padding:7px 9px;
+  font-family:Arial,sans-serif;
+  font-size:.84rem;
+}
+.school-tag{
+  display:inline-block;
+  padding:2px 6px;
+  border:1px solid var(--gold);
+  border-radius:999px;
+  background:rgba(15,51,39,.16);
+  color:#123d2d;
+  font-size:.76rem;
+  margin-left:4px;
+}
+.v7-ribbon{
+  position:absolute;
+  top:10px;
+  right:-42px;
+  transform:rotate(35deg);
+  background:#7f2118;
+  color:#f7e7b6;
+  border:1px solid var(--gold);
+  padding:4px 44px;
+  font-family:Arial,sans-serif;
+  font-size:.7rem;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  opacity:.9;
+}
